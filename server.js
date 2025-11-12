@@ -16,6 +16,17 @@ const db = new sqlite3.Database('./database.db', (err) => {
   }
 });
 
+import path from 'path';
+
+// Servir archivos estáticos generados por Vite
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Redirigir todas las solicitudes a index.html (para un SPA)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+
 
 db.run(`
   CREATE TABLE IF NOT EXISTS usuarios (
