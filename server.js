@@ -3,7 +3,7 @@ import sqlite3 from 'sqlite3';
 import cors from 'cors';
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001; // Usa el puerto asignado por Render
 
 app.use(cors());
 app.use(express.json());
