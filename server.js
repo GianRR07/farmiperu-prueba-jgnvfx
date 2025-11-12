@@ -1,10 +1,9 @@
-import path from 'path';
 import express from 'express';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
 
 const app = express();
-const port = process.env.PORT || 3001; // Usa el puerto asignado por Render
+const port = 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -16,18 +15,6 @@ const db = new sqlite3.Database('./database.db', (err) => {
     console.log('Conectado a la base de datos SQLite');
   }
 });
-
-// Reemplazar __dirname con import.meta.url
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
-// Servir archivos estáticos generados por Vite
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Para manejar todas las demás rutas (SPA)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
 
 
 db.run(`
