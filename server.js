@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
@@ -16,12 +17,13 @@ const db = new sqlite3.Database('./database.db', (err) => {
   }
 });
 
-import path from 'path';
+// Reemplazar __dirname con import.meta.url
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 // Servir archivos estáticos generados por Vite
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Redirigir todas las solicitudes a index.html (para un SPA)
+// Para manejar todas las demás rutas (SPA)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
