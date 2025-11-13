@@ -37,7 +37,6 @@ export default function App() {
             <Route path="/productos/otros" element={<Otros />} />
             <Route path="/login" element={<Login />} />
             <Route path="/carrito" element={<CarritoCompras />} />
-
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/cliente" element={<LoginCliente />} />
             <Route path="/admin" element={<Administrador />} />
