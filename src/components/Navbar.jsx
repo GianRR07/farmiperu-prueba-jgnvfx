@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
+import { api, API_BASE } from "../lib/api";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,8 +60,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/productos")
+    api
+      .get("/productos")
       .then((res) => setProductos(res.data))
       .catch((err) => console.error("Error al obtener productos", err));
   }, []);
@@ -567,7 +568,7 @@ export default function Navbar() {
 
               try {
                 const userId = localStorage.getItem("userId");
-                const res = await axios.get(`http://localhost:3001/usuarios/${userId}/direccion`);
+                const res = await api.get(`/usuarios/${userId}/direccion`);
                 const direccionGuardada = res.data?.direccion || "Sin dirección registrada";
                 setDireccionSeleccionada({ direccion: direccionGuardada });
                 setShowPay(true);
@@ -659,7 +660,7 @@ export default function Navbar() {
                     const isUserLogged = !!localStorage.getItem("nombreUsuario");
 
                     try {
-                      const orderResp = await fetch("http://localhost:3001/orders", {
+                      const orderResp = await fetch(`${API_BASE}/orders`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({

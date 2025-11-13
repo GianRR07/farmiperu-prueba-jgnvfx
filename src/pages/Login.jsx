@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { api, API_BASE } from "../lib/api";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
@@ -85,13 +86,10 @@ export default function Login() {
     }
 
     try {
-      const url = isLogin
-        ? "http://localhost:3001/login"
-        : "http://localhost:3001/registro";
       const data = isLogin
         ? { email, password }
         : { nombre, dni, email, password };
-      const response = await axios.post(url, data);
+      const response = await api.post(isLogin ? "/login" : "/registro", data);
 
       if (isLogin) {
         const { nombre: nombreUsuario, rol, email, dni } = response.data;

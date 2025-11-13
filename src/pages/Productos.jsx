@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { api } from "../lib/api";
 import { useCart } from "../context/CartContext";
 import { useLocation } from "react-router-dom";
 
@@ -45,8 +45,8 @@ export default function ListaProductosPorCategoria({ categoria }) {
 
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/productos")
+    api
+      .get("/productos")
       .then((res) => setProductosBase(res.data || []))
       .catch((err) => console.error("Error al obtener productos", err));
   }, []);

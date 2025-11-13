@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { api } from "../lib/api";
 
 export default function Administrador() {
   const [contenido, setContenido] = useState("Selecciona una opción");
@@ -53,7 +54,7 @@ export default function Administrador() {
       opcion === "Lista de Clientes"
     ) {
       try {
-        const res = await axios.get("http://localhost:3001/usuarios");
+  const res = await api.get("/usuarios");
         const filtro =
           opcion === "Lista de Administradores" ? "admin" : "cliente";
         const filtrados = res.data.filter((user) => user.rol === filtro);
@@ -94,7 +95,7 @@ export default function Administrador() {
     }
 
     try {
-      await axios.post("http://localhost:3001/registro", {
+  await api.post("/registro", {
         nombre,
         dni,
         email,
@@ -114,7 +115,7 @@ export default function Administrador() {
 
   const obtenerProductos = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/productos");
+  const res = await api.get("/productos");
       setProductos(res.data);
     } catch (error) {
       setMensaje("Error al obtener productos");
@@ -123,7 +124,7 @@ export default function Administrador() {
 
   const obtenerProductosAdmin = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/admin/productos");
+  const res = await api.get("/admin/productos");
       setProductos(res.data);
     } catch (error) {
       setMensaje("Error al obtener productos (admin)");
@@ -135,7 +136,7 @@ export default function Administrador() {
     if (!confirmar) return;
 
     try {
-      await axios.delete(`http://localhost:3001/productos/${id}`);
+  await api.delete(`/productos/${id}`);
 
       setProductos((prev) => prev.filter((p) => p.id !== id));
 
@@ -205,7 +206,7 @@ export default function Administrador() {
     }
 
     try {
-      await axios.post("http://localhost:3001/productos", {
+  await api.post("/productos", {
         nombre,
         descripcion,
         precio,
@@ -327,7 +328,7 @@ export default function Administrador() {
     }
 
     try {
-      await axios.put(`http://localhost:3001/productos/${id}`, {
+  await api.put(`/productos/${id}`, {
         nombre,
         descripcion,
         precio,
@@ -361,7 +362,7 @@ function ReporteVentas() {
       const params = new URLSearchParams({ granularity });
       if (start) params.append('start', start);
       if (end) params.append('end', end);
-      const res = await axios.get(`http://localhost:3001/reports/sales?${params.toString()}`);
+  const res = await api.get(`/reports/sales?${params.toString()}`);
       setData(res.data);
       setMsg('');
     } catch (e) {
@@ -436,7 +437,7 @@ function RevisarVentas() {
       if (q) params.append('q', q);
       params.append('limit', '200');
 
-      const res = await axios.get(`http://localhost:3001/orders?${params.toString()}`);
+  const res = await api.get(`/orders?${params.toString()}`);
       setVentas(res.data || []);
     } catch (e) {
       console.error(e);

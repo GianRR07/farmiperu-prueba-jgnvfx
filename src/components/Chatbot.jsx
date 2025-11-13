@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { API_BASE } from "../lib/api";
 
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
@@ -72,7 +73,7 @@ export default function Chatbot() {
 
     try {
       const resp = await fetch(
-        `http://localhost:3001/chat-llm?q=${encodeURIComponent(trimmed)}`
+        `${API_BASE}/chat-llm?q=${encodeURIComponent(trimmed)}`
       );
       const data = await resp.json();
       const reply =

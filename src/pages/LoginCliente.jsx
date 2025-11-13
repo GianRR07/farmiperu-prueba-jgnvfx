@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { api } from "../lib/api";
 import DireccionMap from "../components/DireccionMap";
 import jsPDF from "jspdf";
 
@@ -59,8 +60,8 @@ export default function LoginCliente() {
         const params = new URLSearchParams();
         if (email) params.append("email", email);
         if (dni) params.append("dni", dni);
-        const res = await axios.get(
-          `http://localhost:3001/orders/by-user?${params.toString()}`
+        const res = await api.get(
+          `/orders/by-user?${params.toString()}`
         );
         setVentas(res.data || []);
       } catch (e) {
@@ -437,8 +438,8 @@ export default function LoginCliente() {
             const userId = localStorage.getItem("userId");
             if (!userId) return;
 
-            await axios.put(
-              `http://localhost:3001/usuarios/${userId}/direccion`,
+            await api.put(
+              `/usuarios/${userId}/direccion`,
               {
                 direccion: direccion.direccion,
               }
